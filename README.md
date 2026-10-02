@@ -27,3 +27,10 @@ The deliberate trade-off is that this library only supports **range assignment**
 The library uses a boolean `hasLazy` flag per node rather than a sentinel value to mark pending assignments. This matters because the assigned value can legitimately be `0` (the identity for sum), `-Infinity`, or any other number a sentinel might collide with. If you pass a custom operation whose identity is `0` but whose combine is not additive repetition, the aggregate computation for a range assignment will be wrong — the code assumes identity-0 means "sum-like". The three presets (`rangeSum`, `rangeMin`, `rangeMax`) are all safe. If you need a custom op with identity 0 that is not sum-like, do not use this library as-is.
 
 Ranges are inclusive on both ends. `query(3, 1)` throws `RangeError`; it is not silently reordered.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
