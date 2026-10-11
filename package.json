@@ -1,6 +1,6 @@
 {
   "name": "segment-tree-lazy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Supports range updates and range queries for associative operations with lazy propagation.",
   "type": "module",
   "main": "src/index.js",
